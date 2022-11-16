@@ -10,6 +10,7 @@ import userRoute from './routes/users.js'
 const app = express();
 dotenv.config()
 
+app.use( express.json() )
 
 
 app.use( '/api/auth', authRoute )
