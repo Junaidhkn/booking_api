@@ -19,6 +19,16 @@ app.use( '/api/hotels', hotelRoute )
 app.use( '/api/rooms', roomRoute )
 
 
+app.use( ( err, req, res, next ) => {
+   const errorStatus = err.status || 500;
+   const errorMessage = err.message || 'Something went Wrong!'
+   return res.status( errorStatus ).json( {
+      status: errorStatus,
+      message: errorMessage,
+      stack: err.stack
+   } )
+} )
+
 
 
 const connect = async () => {
