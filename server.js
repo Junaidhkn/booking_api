@@ -23,7 +23,7 @@ app.use( '/api/rooms', roomRoute )
 const connect = async () => {
    try {
       await mongoose.connect( process.env.MONGODB_URI )
-      console.log( 'Connection to Database: Successful' )
+      console.log( 'Connection to Database: Successfull' )
    } catch ( error ) {
       throw error;
    }
