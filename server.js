@@ -5,6 +5,7 @@ import authRoute from './routes/auth.js'
 import hotelRoute from './routes/hotels.js'
 import roomRoute from './routes/rooms.js'
 import userRoute from './routes/users.js'
+import { errorHandler } from "./utils/error.js";
 
 
 const app = express();
@@ -19,15 +20,17 @@ app.use( '/api/hotels', hotelRoute )
 app.use( '/api/rooms', roomRoute )
 
 
-app.use( ( err, req, res, next ) => {
-   const errorStatus = err.status || 500;
-   const errorMessage = err.message || 'Something went Wrong!'
-   return res.status( errorStatus ).json( {
-      status: errorStatus,
-      message: errorMessage,
-      stack: err.stack
-   } )
-} )
+app.use( errorHandler );
+
+// app.use( ( err, req, res, next ) => {
+//    const errorStatus = err.status || 500;
+//    const errorMessage = err.message || 'Something went Wrong!'
+//    return res.status( errorStatus ).json( {
+//       status: errorStatus,
+//       message: errorMessage,
+//       stack: err.stack
+//    } )
+// } )
 
 
 

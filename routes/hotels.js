@@ -1,4 +1,5 @@
 import express from "express";
+import { errorHandler } from '../utils/error.js'
 import Hotel from '../models/Hotel.js'
 
 const router = express.Router()
@@ -47,7 +48,7 @@ router.get( '/:id', async ( req, res, next ) => {
 } )
 // GET ALL
 
-router.get( '/', async ( req, res ) => {
+router.get( '/', async ( req, res, next ) => {
    try {
       const hotels = await Hotel.find()
       res.status( 200 ).json( hotels )
