@@ -5,12 +5,13 @@ import authRoute from './routes/auth.js'
 import hotelRoute from './routes/hotels.js'
 import roomRoute from './routes/rooms.js'
 import userRoute from './routes/users.js'
+import cookieParser from "cookie-parser";
 import { errorHandler } from "./utils/error.js";
 
 
 const app = express();
 dotenv.config()
-
+app.use( cookieParser() )
 app.use( express.json() )
 
 
