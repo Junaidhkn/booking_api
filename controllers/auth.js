@@ -1,7 +1,7 @@
 import User from "../models/User.js"
 import bcrypt from 'bcryptjs'
 import { errorHandler } from "../utils/error.js"
-
+import jwt from 'jsonwebtoken'
 
 
 export const register = async ( req, res, next ) => {
@@ -25,6 +25,9 @@ export const login = async ( req, res, next ) => {
       if ( !user ) return next( errorHandler( 404, "User Not Found!" ) )
       const isPasswordCorrect = await bcrypt.compareSync( req.body.password, user.password )
       if ( !isPasswordCorrect ) return next( errorHandler( 400, "Wrong Password or Username!" ) )
+
+      const token = jwt.sign( { id: user._id, isAdmin: user.isAdmin }, process.env.TOKEN_KEY )
+
       const { password, isAdmin, ...otherData } = user._doc
       res.status( 200 ).json( otherData )
    } catch ( err ) {
