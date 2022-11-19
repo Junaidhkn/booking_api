@@ -9,8 +9,11 @@ export const createRoom = async ( req, res, next ) => {
 
    try {
       const savedRoom = await newRoom.save()
-      await Hotel.findByIdAndUpdate( hotelId, { $push: { rooms: savedRoom._id } } )
-
+      try {
+         await Hotel.findByIdAndUpdate( hotelId, { $push: { rooms: savedRoom._id } } )
+      } catch ( error ) {
+         next( error )
+      }
       res.status( 200 ).json( savedRoom )
    } catch ( error ) {
       next( error )
@@ -30,9 +33,15 @@ export const updateRoom = async ( req, res, next ) => {
 
 // Delete
 export const deleteRoom = async ( req, res, next ) => {
+   const hotelId = req.params.hotelId;
    try {
       await Room.findByIdAndDelete( req.params.id )
-      res.status( 200 ).json( 'Room Info Deleted' )
+      try {
+         await Hotel.findByIdAndUpdate( hotelId, { $pull: { rooms: req.params.id } } )
+      } catch ( error ) {
+         next( error )
+      }
+      res.status( 200 ).json( 'Room has been Deleted' )
    } catch ( err ) {
       next( err )
    }
