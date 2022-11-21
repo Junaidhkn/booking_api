@@ -22,10 +22,10 @@ router.get( 'find/:id', getHotel )
 router.get( '/', getHotels )
 
 // Count By City Name
-router.get( '/', countByCity )
+router.get( '/countByCity', countByCity )
 
 // Count By Type
-router.get( '/', countByType )
+router.get( '/countByType', countByType )
 
 
 
