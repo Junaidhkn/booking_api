@@ -33,6 +33,6 @@ export const login = async ( req, res, next ) => {
          httpOnly: true
       } ).status( 200 ).json( otherData )
    } catch ( err ) {
-      errorHandler( 404, "User Not Found!" )
+      next( errorHandler( 404, "User Not Found!" ) )
    }
 } 
