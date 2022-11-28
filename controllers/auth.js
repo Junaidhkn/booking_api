@@ -23,7 +23,7 @@ export const login = async ( req, res, next ) => {
    try {
       const user = await User.findOne( { username: req.body.username } )
       if ( !user ) return next( errorHandler( 404, "User Not Found!" ) )
-      const isPasswordCorrect = await bcrypt.compareSync( req.body.password, user.password )
+      const isPasswordCorrect = await bcrypt.compare( req.body.password, user.password )
       if ( !isPasswordCorrect ) return next( errorHandler( 400, "Wrong Password or Username!" ) )
 
       const token = jwt.sign( { id: user._id, isAdmin: user.isAdmin }, process.env.TOKEN_KEY )
@@ -33,6 +33,6 @@ export const login = async ( req, res, next ) => {
          httpOnly: true
       } ).status( 200 ).json( otherData )
    } catch ( err ) {
-      next( err )
+      errorHandler( 404, "User Not Found!" )
    }
 } 
